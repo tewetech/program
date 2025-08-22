@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Generator Link Undangan By Tewe</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@500;700&family=Manrope:wght@400;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --glass-bg: rgba(255, 255, 255, 0.14);
+      --glass-br: 16px;
+      --text: #f6f8ff;
+      --accent-1: #6aa8ff;
+      --accent-2: #6cf1ff;
+      --spacing: 16px; 
+    }
+
+    /* ====== Background: Gradient mesh + grid tipis ====== */
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text);
+      font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      position: relative;
+      overflow-x: hidden;
+      background:
+        radial-gradient(1200px 700px at 10% 10%, #0b1630 0%, #0b1630 40%, transparent 60%) no-repeat,
+        radial-gradient(1000px 600px at 90% 20%, #0a1f4a 0%, transparent 60%) no-repeat,
+        radial-gradient(900px 600px at 30% 90%, #102e5e 0%, transparent 60%) no-repeat,
+        linear-gradient(180deg, #081226 0%, #0a1530 50%, #071023 100%);
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background:
+        repeating-linear-gradient(
+          to right,
+          rgba(255, 255, 255, 0.06) 0 1px,
+          transparent 1px 24px
+        ),
+        repeating-linear-gradient(
+          to bottom,
+          rgba(255, 255, 255, 0.06) 0 1px,
+          transparent 1px 24px
+        );
+      mask-image: radial-gradient(1200px 700px at 50% 40%, #000 0%, transparent 75%);
+      pointer-events: none;
+    }
+    body::after {
+      content: "";
+      position: fixed;
+      inset: -20%;
+      background:
+        radial-gradient(60vw 40vw at 20% -10%, rgba(108, 241, 255, 0.08), transparent 60%),
+        radial-gradient(60vw 40vw at 120% 110%, rgba(106, 168, 255, 0.08), transparent 60%);
+      filter: blur(20px);
+      pointer-events: none;
+    }
+
+    /* ====== Kotak Utama & Konten ====== */
+    .container {
+      position: relative;
+      z-index: 1;
+      width: min(92vw, 500px);
+      background: var(--glass-bg);
+      backdrop-filter: blur(14px) saturate(120%);
+      -webkit-backdrop-filter: blur(14px) saturate(120%);
+      border-radius: var(--glass-br);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.45),
+        inset 0 1px 0 rgba(255, 255, 255, 0.18);
+      padding: var(--spacing);
+      animation: fadeIn .7s ease-out both;
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing);
+    }
+
+    h1, p {
+      margin: 0;
+      text-align: center;
+    }
+    h1 {
+      font-family: "Exo 2", ui-sans-serif, system-ui;
+      font-weight: 700;
+      font-size: clamp(1.1rem, 2.8vw, 1.5rem);
+      letter-spacing: .4px;
+    }
+    p {
+      font-size: clamp(.85rem, 2.6vw, .95rem);
+      opacity: .9;
+    }
+
+    textarea {
+      /* Perbaikan: tambahkan box-sizing untuk presisi lebar */
+      box-sizing: border-box; 
+      width: 100%;
+      height: 110px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text);
+      padding: 10px 12px;
+      font-size: clamp(.9rem, 2.7vw, .95rem);
+      line-height: 1.35;
+      outline: none;
+      transition: border-color .2s, box-shadow .2s, background .2s;
+      resize: vertical;
+    }
+    textarea::placeholder { color: rgba(245, 248, 255, 0.65); }
+    textarea:focus {
+      border-color: var(--accent-2);
+      box-shadow: 0 0 0 3px rgba(108, 241, 255, 0.16);
+      background: rgba(255, 255, 255, 0.10);
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 12px;
+    }
+    button {
+      flex-grow: 1;
+      border: none;
+      border-radius: 12px;
+      padding: 10px 14px;
+      font-size: clamp(.9rem, 2.7vw, .95rem);
+      cursor: pointer;
+      font-weight: 700;
+      letter-spacing: .2px;
+      font-family: "Exo 2", ui-sans-serif, system-ui;
+      background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+      color: #051022;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+      transition: transform .12s ease, filter .12s ease, box-shadow .12s ease;
+    }
+    button:hover { transform: translateY(-1px); filter: brightness(1.05); }
+    button:active { transform: translateY(0); filter: brightness(.98); }
+
+    .output {
+      /* Perbaikan: tambahkan box-sizing agar lebar sejajar dengan textarea */
+      box-sizing: border-box;
+      min-height: 48px;
+      max-height: 230px;
+      overflow: auto;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.06);
+      font-size: clamp(.85rem, 2.6vw, .9rem);
+      padding: 10px 12px; /* Menyesuaikan padding agar sama dengan textarea */
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .output a {
+      display: block;
+      text-decoration: none;
+      color: var(--accent-2);
+      word-wrap: break-word;
+    }
+    .output a:hover { text-decoration: underline; }
+    .output p {
+      text-align: center;
+      font-style: italic;
+      color: rgba(245, 248, 255, 0.65);
+      margin: 0;
+    }
+
+    /* Responsif extra-kecil */
+    @media (max-width: 380px) {
+      .container { 
+        padding: 14px; 
+        width: 94vw; 
+        gap: 12px; 
+      }
+      .btn-group { 
+        flex-direction: column; 
+        gap: 8px;
+      }
+      textarea { height: 95px; }
+    }
+
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Generator Link Undangan</h1>
+    <p>Masukkan daftar nama (satu baris = satu nama)</p>
+
+    <textarea id="nameList" placeholder="Contoh:&#10;Hendra Rajawali&#10;Muhammad Ilyas Hanafi"></textarea>
+
+    <div class="btn-group">
+      <button onclick="generateLinks()">Buat Link</button>
+      <button onclick="copyAll()">Copy All</button>
+    </div>
+
+    <div class="output" id="output">
+      <p>Link yang dihasilkan akan muncul di sini.</p>
+    </div>
+  </div>
+
+  <script>
+    function generateLinks() {
+      const baseUrl = "https://tewetech.github.io/wedding-invitation-tri-chusnul/?to=";
+      const input = document.getElementById("nameList").value.trim();
+      const out = document.getElementById("output");
+      
+      out.innerHTML = "";
+      
+      const names = input.split("\n").map(n => n.trim()).filter(n => n);
+      
+      if (names.length === 0) {
+        out.innerHTML = "<p>Tolong masukkan nama terlebih dahulu.</p>";
+        return;
+      }
+      
+      names.forEach(name => {
+        const link = document.createElement("a");
+        link.href = baseUrl + encodeURIComponent(name);
+        link.target = "_blank";
+        link.textContent = link.href;
+        out.appendChild(link);
+      });
+    }
+
+    function copyAll() {
+      const links = document.querySelectorAll("#output a");
+      if (!links.length) {
+        alert("Belum ada link yang dihasilkan.");
+        return;
+      }
+      const all = Array.from(links).map(a => a.href).join("\n");
+      navigator.clipboard.writeText(all)
+        .then(() => alert("Semua link berhasil disalin!"))
+        .catch(err => alert("Gagal menyalin: " + err));
+    }
+  </script>
+</body>
+</html>
