@@ -1,246 +1,356 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Generator Link Undangan By Tewe</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Generator Link Undangan</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@500;700&family=Manrope:wght@400;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&family=Roboto+Mono:wght@400;600;700&display=swap" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
 
-  <style>
-    :root {
-      --glass-bg: rgba(255, 255, 255, 0.14);
-      --glass-br: 16px;
-      --text: #f6f8ff;
-      --accent-1: #6aa8ff;
-      --accent-2: #6cf1ff;
-      --spacing: 16px; 
-    }
+    <style>
+        :root {
+            --dark-blue: #050a16;
+            --main-bg: #0b1630;
+            --glass-bg: rgba(255, 255, 255, 0.08);
+            --glass-br: 16px;
+            --text-color: #e0e6f3;
+            --subtle-text: rgba(224, 230, 243, 0.7);
+            --accent-1: #6aa8ff;
+            --accent-2: #6cf1ff;
+            --spacing: 16px;
+            --font-size-base: 0.65rem;
+            --font-size-link: 0.65rem;
+            --font-size-placeholder: 0.65rem; /* Ukuran font placeholder diperkecil lagi */
+            --box-height: 100px;
+        }
 
-    /* ====== Background: Gradient mesh + grid tipis ====== */
-    body {
-      margin: 0;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--text);
-      font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      position: relative;
-      overflow-x: hidden;
-      background:
-        radial-gradient(1200px 700px at 10% 10%, #0b1630 0%, #0b1630 40%, transparent 60%) no-repeat,
-        radial-gradient(1000px 600px at 90% 20%, #0a1f4a 0%, transparent 60%) no-repeat,
-        radial-gradient(900px 600px at 30% 90%, #102e5e 0%, transparent 60%) no-repeat,
-        linear-gradient(180deg, #081226 0%, #0a1530 50%, #071023 100%);
-    }
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      background:
-        repeating-linear-gradient(
-          to right,
-          rgba(255, 255, 255, 0.06) 0 1px,
-          transparent 1px 24px
-        ),
-        repeating-linear-gradient(
-          to bottom,
-          rgba(255, 255, 255, 0.06) 0 1px,
-          transparent 1px 24px
-        );
-      mask-image: radial-gradient(1200px 700px at 50% 40%, #000 0%, transparent 75%);
-      pointer-events: none;
-    }
-    body::after {
-      content: "";
-      position: fixed;
-      inset: -20%;
-      background:
-        radial-gradient(60vw 40vw at 20% -10%, rgba(108, 241, 255, 0.08), transparent 60%),
-        radial-gradient(60vw 40vw at 120% 110%, rgba(106, 168, 255, 0.08), transparent 60%);
-      filter: blur(20px);
-      pointer-events: none;
-    }
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-color);
+            font-family: "Roboto Mono", monospace;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(180deg, #081226 0%, #0a1530 50%, #071023 100%);
+        }
 
-    /* ====== Kotak Utama & Konten ====== */
-    .container {
-      position: relative;
-      z-index: 1;
-      width: min(92vw, 500px);
-      background: var(--glass-bg);
-      backdrop-filter: blur(14px) saturate(120%);
-      -webkit-backdrop-filter: blur(14px) saturate(120%);
-      border-radius: var(--glass-br);
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      box-shadow:
-        0 10px 30px rgba(0, 0, 0, 0.45),
-        inset 0 1px 0 rgba(255, 255, 255, 0.18);
-      padding: var(--spacing);
-      animation: fadeIn .7s ease-out both;
-      display: flex;
-      flex-direction: column;
-      gap: var(--spacing);
-    }
+        body::before, body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: -1;
+        }
 
-    h1, p {
-      margin: 0;
-      text-align: center;
-    }
-    h1 {
-      font-family: "Exo 2", ui-sans-serif, system-ui;
-      font-weight: 700;
-      font-size: clamp(1.1rem, 2.8vw, 1.5rem);
-      letter-spacing: .4px;
-    }
-    p {
-      font-size: clamp(.85rem, 2.6vw, .95rem);
-      opacity: .9;
-    }
+        body::before {
+            background: radial-gradient(circle 800px at 15% 15%, #0b1630 0%, #0b1630 40%, transparent 60%) no-repeat,
+                        radial-gradient(circle 600px at 85% 20%, #0a1f4a 0%, transparent 60%) no-repeat,
+                        radial-gradient(circle 700px at 40% 85%, #102e5e 0%, transparent 60%) no-repeat;
+            opacity: 0.8;
+            filter: blur(20px);
+            animation: pulseBg 15s infinite ease-in-out alternate;
+        }
 
-    textarea {
-      /* Perbaikan: tambahkan box-sizing untuk presisi lebar */
-      box-sizing: border-box; 
-      width: 100%;
-      height: 110px;
-      border-radius: 12px;
-      border: 1px solid rgba(255, 255, 255, 0.25);
-      background: rgba(255, 255, 255, 0.08);
-      color: var(--text);
-      padding: 10px 12px;
-      font-size: clamp(.9rem, 2.7vw, .95rem);
-      line-height: 1.35;
-      outline: none;
-      transition: border-color .2s, box-shadow .2s, background .2s;
-      resize: vertical;
-    }
-    textarea::placeholder { color: rgba(245, 248, 255, 0.65); }
-    textarea:focus {
-      border-color: var(--accent-2);
-      box-shadow: 0 0 0 3px rgba(108, 241, 255, 0.16);
-      background: rgba(255, 255, 255, 0.10);
-    }
+        body::after {
+            background: repeating-linear-gradient(to right, rgba(255, 255, 255, 0.04) 0 1px, transparent 1px 24px),
+                        repeating-linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 0 1px, transparent 1px 24px);
+            mask-image: radial-gradient(1200px 700px at 50% 40%, #000 0%, transparent 75%);
+        }
 
-    .btn-group {
-      display: flex;
-      gap: 12px;
-    }
-    button {
-      flex-grow: 1;
-      border: none;
-      border-radius: 12px;
-      padding: 10px 14px;
-      font-size: clamp(.9rem, 2.7vw, .95rem);
-      cursor: pointer;
-      font-weight: 700;
-      letter-spacing: .2px;
-      font-family: "Exo 2", ui-sans-serif, system-ui;
-      background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
-      color: #051022;
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
-      transition: transform .12s ease, filter .12s ease, box-shadow .12s ease;
-    }
-    button:hover { transform: translateY(-1px); filter: brightness(1.05); }
-    button:active { transform: translateY(0); filter: brightness(.98); }
+        .container {
+            position: relative;
+            z-index: 2;
+            width: 340px;
+            max-width: 90vw;
+            background: var(--glass-bg);
+            backdrop-filter: blur(14px) saturate(120%);
+            -webkit-backdrop-filter: blur(14px) saturate(120%);
+            border-radius: var(--glass-br);
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+            padding: var(--spacing);
+            animation: fadeIn .7s ease-out both;
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing);
+        }
 
-    .output {
-      /* Perbaikan: tambahkan box-sizing agar lebar sejajar dengan textarea */
-      box-sizing: border-box;
-      min-height: 48px;
-      max-height: 230px;
-      overflow: auto;
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      border-radius: 12px;
-      background: rgba(255, 255, 255, 0.06);
-      font-size: clamp(.85rem, 2.6vw, .9rem);
-      padding: 10px 12px; /* Menyesuaikan padding agar sama dengan textarea */
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    .output a {
-      display: block;
-      text-decoration: none;
-      color: var(--accent-2);
-      word-wrap: break-word;
-    }
-    .output a:hover { text-decoration: underline; }
-    .output p {
-      text-align: center;
-      font-style: italic;
-      color: rgba(245, 248, 255, 0.65);
-      margin: 0;
-    }
+        h1 {
+            margin: 0;
+            font-family: "Rajdhani", sans-serif;
+            font-weight: 700;
+            font-size: 1.4rem;
+            text-align: center;
+            letter-spacing: .8px;
+            color: var(--accent-2);
+            text-shadow: 0 0 8px rgba(108, 241, 255, 0.3);
+            animation: textGlow 1.5s infinite alternate;
+        }
 
-    /* Responsif extra-kecil */
-    @media (max-width: 380px) {
-      .container { 
-        padding: 14px; 
-        width: 94vw; 
-        gap: 12px; 
-      }
-      .btn-group { 
-        flex-direction: column; 
-        gap: 8px;
-      }
-      textarea { height: 95px; }
-    }
+        textarea {
+            box-sizing: border-box;
+            width: 100%;
+            min-height: var(--box-height);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--text-color);
+            padding: 10px;
+            font-size: var(--font-size-base);
+            line-height: 1.5;
+            outline: none;
+            transition: border-color .2s, box-shadow .2s, background .2s;
+            resize: vertical;
+        }
 
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-  </style>
+        textarea::placeholder {
+            color: var(--subtle-text);
+            font-size: var(--font-size-base);
+        }
+
+        textarea:focus {
+            border-color: var(--accent-2);
+            box-shadow: 0 0 0 3px rgba(108, 241, 255, 0.16);
+            background: rgba(255, 255, 255, 0.10);
+        }
+
+        .output-container {
+            min-height: var(--box-height);
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.06);
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            scrollbar-width: thin;
+            scrollbar-color: var(--accent-1) transparent;
+        }
+
+        .output-container::-webkit-scrollbar {
+            width: 6px;
+        }
+        .output-container::-webkit-scrollbar-thumb {
+            background-color: var(--accent-1);
+            border-radius: 3px;
+        }
+        .output-container::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .output-link {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 8px;
+            padding: 8px;
+            transition: background .2s;
+        }
+
+        .output-link:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .output-link a {
+            flex-grow: 1;
+            text-decoration: none;
+            color: var(--accent-2);
+            word-wrap: break-word;
+            font-size: var(--font-size-link);
+            padding-right: 10px;
+            transition: color .2s;
+        }
+
+        .output-link a:hover {
+            color: var(--accent-1);
+            text-decoration: underline;
+        }
+        
+        .output-link .copy-btn {
+            background: transparent;
+            border: none;
+            color: var(--subtle-text);
+            cursor: pointer;
+            padding: 4px;
+            font-size: 1rem;
+            transition: color .2s, transform .2s;
+        }
+
+        .output-link .copy-btn:hover {
+            color: var(--accent-2);
+            transform: scale(1.1);
+        }
+
+        .output-placeholder {
+            text-align: center;
+            font-style: italic;
+            color: var(--subtle-text);
+            margin: auto 0;
+            font-size: var(--font-size-placeholder);
+        }
+
+        .btn-group {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 1000;
+        }
+
+        .floating-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            border: none;
+            border-radius: 50%;
+            padding: 0;
+            cursor: pointer;
+            font-size: 1.1rem;
+            color: #051022;
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+            transition: transform .12s ease, filter .12s ease, box-shadow .12s ease;
+        }
+
+        .floating-btn:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.05);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45);
+        }
+        
+        .floating-btn:active {
+            transform: translateY(0);
+            filter: brightness(.98);
+        }
+
+        .toast-message {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            z-index: 1001;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .toast-message.show {
+            opacity: 1;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes textGlow {
+            from { text-shadow: 0 0 5px rgba(108, 241, 255, 0.3); }
+            to { text-shadow: 0 0 15px rgba(108, 241, 255, 0.8); }
+        }
+
+        @keyframes pulseBg {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Generator Link Undangan</h1>
-    <p>Masukkan daftar nama (satu baris = satu nama)</p>
+    <div class="container">
+        <h1>Generator Link Undangan</h1>
 
-    <textarea id="nameList" placeholder="Contoh:&#10;Hendra Rajawali&#10;Muhammad Ilyas Hanafi"></textarea>
+        <textarea id="nameList" placeholder="Tulis nama disini. *Pisahkan setiap baris."></textarea>
+
+        <div class="output-container" id="output">
+            <p class="output-placeholder">Link yang dihasilkan akan muncul di sini.</p>
+        </div>
+    </div>
 
     <div class="btn-group">
-      <button onclick="generateLinks()">Buat Link</button>
-      <button onclick="copyAll()">Copy All</button>
+        <button class="floating-btn" id="copyAllBtn" title="Salin Semua Link">
+            <i class="fa-solid fa-copy"></i>
+        </button>
     </div>
 
-    <div class="output" id="output">
-      <p>Link yang dihasilkan akan muncul di sini.</p>
-    </div>
-  </div>
+    <div id="toast" class="toast-message"></div>
 
-  <script>
-    function generateLinks() {
-      const baseUrl = "https://tewetech.github.io/wedding-invitation-tri-chusnul/?to=";
-      const input = document.getElementById("nameList").value.trim();
-      const out = document.getElementById("output");
-      
-      out.innerHTML = "";
-      
-      const names = input.split("\n").map(n => n.trim()).filter(n => n);
-      
-      if (names.length === 0) {
-        out.innerHTML = "<p>Tolong masukkan nama terlebih dahulu.</p>";
-        return;
-      }
-      
-      names.forEach(name => {
-        const link = document.createElement("a");
-        link.href = baseUrl + encodeURIComponent(name);
-        link.target = "_blank";
-        link.textContent = link.href;
-        out.appendChild(link);
-      });
-    }
+    <script>
+        const nameList = document.getElementById("nameList");
+        const outputContainer = document.getElementById("output");
+        const copyAllBtn = document.getElementById("copyAllBtn");
+        const toast = document.getElementById("toast");
+        const baseUrl = "https://tewetech.github.io/wedding-invitation-tri-chusnul/?to=";
 
-    function copyAll() {
-      const links = document.querySelectorAll("#output a");
-      if (!links.length) {
-        alert("Belum ada link yang dihasilkan.");
-        return;
-      }
-      const all = Array.from(links).map(a => a.href).join("\n");
-      navigator.clipboard.writeText(all)
-        .then(() => alert("Semua link berhasil disalin!"))
-        .catch(err => alert("Gagal menyalin: " + err));
-    }
-  </script>
+        nameList.addEventListener("input", generateLinks);
+        copyAllBtn.addEventListener("click", copyAll);
+
+        function generateLinks() {
+            outputContainer.innerHTML = "";
+            const input = nameList.value.trim();
+            const names = input.split("\n").map(n => n.trim()).filter(n => n);
+
+            if (names.length === 0) {
+                outputContainer.innerHTML = "<p class='output-placeholder'>Link yang dihasilkan akan muncul di sini.</p>";
+                return;
+            }
+
+            names.forEach(name => {
+                const linkWrapper = document.createElement("div");
+                linkWrapper.className = "output-link";
+                
+                const link = document.createElement("a");
+                link.href = baseUrl + encodeURIComponent(name);
+                link.target = "_blank";
+                link.textContent = link.href;
+
+                const copyBtn = document.createElement("button");
+                copyBtn.className = "copy-btn";
+                copyBtn.innerHTML = '<i class="fa-regular fa-clipboard"></i>';
+                copyBtn.title = "Salin link ini";
+                copyBtn.addEventListener("click", () => copyLink(link.href));
+                
+                linkWrapper.appendChild(link);
+                linkWrapper.appendChild(copyBtn);
+                outputContainer.appendChild(linkWrapper);
+            });
+        }
+
+        function copyLink(text) {
+            navigator.clipboard.writeText(text)
+                .then(() => showToast("Link berhasil disalin!"))
+                .catch(err => showToast("Gagal menyalin: " + err));
+        }
+
+        function copyAll() {
+            const links = document.querySelectorAll("#output a");
+            if (!links.length) {
+                showToast("Belum ada link yang dihasilkan.");
+                return;
+            }
+            const allLinks = Array.from(links).map(a => a.href).join("\n");
+            copyLink(allLinks);
+        }
+
+        function showToast(message) {
+            toast.textContent = message;
+            toast.classList.add("show");
+            setTimeout(() => {
+                toast.classList.remove("show");
+            }, 3000);
+        }
+    </script>
 </body>
 </html>
