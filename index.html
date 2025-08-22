@@ -21,7 +21,7 @@
             --spacing: 16px;
             --font-size-base: 0.65rem;
             --font-size-link: 0.65rem;
-            --font-size-placeholder: 0.65rem; /* Ukuran font placeholder diperkecil lagi */
+            --font-size-placeholder: 0.65rem;
             --box-height: 100px;
         }
 
@@ -166,7 +166,7 @@
             padding-right: 10px;
             transition: color .2s;
         }
-
+        
         .output-link a:hover {
             color: var(--accent-1);
             text-decoration: underline;
@@ -293,6 +293,30 @@
         const copyAllBtn = document.getElementById("copyAllBtn");
         const toast = document.getElementById("toast");
         const baseUrl = "https://tewetech.github.io/wedding-invitation-tri-chusnul/?to=";
+        const invitationTemplate = (name, url) => {
+            return `Kepada Yth.
+
+${name}
+
+Tanpa mengurangi rasa hormat, perkenankan kami mengundang Bapak/Ibu/Saudara/i untuk menghadiri acara kami.
+
+Berikut link undangan kami, untuk info lengkap dari acara bisa kunjungi :
+
+${url}
+
+Merupakan suatu kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan untuk hadir dan memberikan doa restu.
+
+Mohon maaf perihal undangan hanya di bagikan melalui pesan ini.
+
+Terima kasih banyak atas perhatiannya.
+
+Hormat kami,
+Tri & Chusnul
+
+Keluarga yang Berbahagia
+Bpk. Sudi Karyono & Ibu Ngasirah
+Bpk. Sularto & Ibu. Sri Mulyani, S.Pd.SD`;
+        };
 
         nameList.addEventListener("input", generateLinks);
         copyAllBtn.addEventListener("click", copyAll);
@@ -310,17 +334,19 @@
             names.forEach(name => {
                 const linkWrapper = document.createElement("div");
                 linkWrapper.className = "output-link";
-                
+
                 const link = document.createElement("a");
-                link.href = baseUrl + encodeURIComponent(name);
+                const encodedName = encodeURIComponent(name);
+                const fullUrl = baseUrl + encodedName;
+                link.href = fullUrl;
                 link.target = "_blank";
-                link.textContent = link.href;
+                link.textContent = name; // Tampilkan hanya nama
 
                 const copyBtn = document.createElement("button");
                 copyBtn.className = "copy-btn";
                 copyBtn.innerHTML = '<i class="fa-regular fa-clipboard"></i>';
-                copyBtn.title = "Salin link ini";
-                copyBtn.addEventListener("click", () => copyLink(link.href));
+                copyBtn.title = "Salin pesan undangan";
+                copyBtn.addEventListener("click", () => copyInvitation(name, fullUrl));
                 
                 linkWrapper.appendChild(link);
                 linkWrapper.appendChild(copyBtn);
@@ -328,20 +354,28 @@
             });
         }
 
-        function copyLink(text) {
-            navigator.clipboard.writeText(text)
-                .then(() => showToast("Link berhasil disalin!"))
+        function copyInvitation(name, url) {
+            const message = invitationTemplate(name, url);
+            navigator.clipboard.writeText(message)
+                .then(() => showToast("Pesan undangan berhasil disalin!"))
                 .catch(err => showToast("Gagal menyalin: " + err));
         }
 
         function copyAll() {
-            const links = document.querySelectorAll("#output a");
+            const links = document.querySelectorAll("#output .output-link");
             if (!links.length) {
                 showToast("Belum ada link yang dihasilkan.");
                 return;
             }
-            const allLinks = Array.from(links).map(a => a.href).join("\n");
-            copyLink(allLinks);
+            const allMessages = Array.from(links).map(linkWrapper => {
+                const name = linkWrapper.querySelector("a").textContent;
+                const url = baseUrl + encodeURIComponent(name);
+                return invitationTemplate(name, url);
+            }).join("\n\n---\n\n"); // Pisahkan setiap pesan dengan garis putus-putus
+            
+            navigator.clipboard.writeText(allMessages)
+                .then(() => showToast("Semua pesan undangan berhasil disalin!"))
+                .catch(err => showToast("Gagal menyalin: " + err));
         }
 
         function showToast(message) {
