@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+<link rel="icon" type="image/png" href="https://raw.githubusercontent.com/tewetech/program/refs/heads/main/favicon.png">
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Generator Pesan Undangan</title>
@@ -105,6 +106,19 @@
             outline: none;
             transition: border-color .2s, box-shadow .2s, background .2s;
             resize: vertical;
+            scrollbar-width: thin;
+            scrollbar-color: var(--accent-1) transparent;
+        }
+
+        textarea::-webkit-scrollbar {
+            width: 6px;
+        }
+        textarea::-webkit-scrollbar-thumb {
+            background-color: var(--accent-1);
+            border-radius: 3px;
+        }
+        textarea::-webkit-scrollbar-track {
+            background: transparent;
         }
 
         textarea::placeholder {
@@ -119,8 +133,8 @@
         }
 
         .output-container {
-            /* REVISI: Mengatur tinggi tetap agar hanya menampilkan 2 baris */
-            height: calc(2 * 1.5rem + 2 * 8px + 20px); /* Ketinggian 2 baris + padding */
+            /* REVISI: Mengatur tinggi tetap agar hanya menampilkan 1 baris */
+            height: 48px;
             overflow-y: auto;
             border: 1px solid rgba(255, 255, 255, 0.18);
             border-radius: 12px;
@@ -195,44 +209,6 @@
             font-size: var(--font-size-placeholder);
         }
 
-        .btn-group {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            z-index: 1000;
-        }
-
-        .floating-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 45px;
-            height: 45px;
-            border: none;
-            border-radius: 50%;
-            padding: 0;
-            cursor: pointer;
-            font-size: 1.1rem;
-            color: #051022;
-            background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
-            transition: transform .12s ease, filter .12s ease, box-shadow .12s ease;
-        }
-
-        .floating-btn:hover {
-            transform: translateY(-2px);
-            filter: brightness(1.05);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45);
-        }
-        
-        .floating-btn:active {
-            transform: translateY(0);
-            filter: brightness(.98);
-        }
-
         .toast-message {
             position: fixed;
             bottom: 20px;
@@ -241,7 +217,7 @@
             color: #fff;
             padding: 10px 15px;
             border-radius: 8px;
-            font-size: 0.8rem;
+            font-size: 0.5rem;
             z-index: 1001;
             opacity: 0;
             transition: opacity 0.5s ease-in-out;
@@ -280,18 +256,11 @@
         </div>
     </div>
 
-    <div class="btn-group">
-        <button class="floating-btn" id="copyAllBtn" title="Salin Semua Link">
-            <i class="fa-solid fa-copy"></i>
-        </button>
-    </div>
-
     <div id="toast" class="toast-message"></div>
 
     <script>
         const nameList = document.getElementById("nameList");
         const outputContainer = document.getElementById("output");
-        const copyAllBtn = document.getElementById("copyAllBtn");
         const toast = document.getElementById("toast");
         const baseUrl = "https://tewetech.github.io/wedding-invitation-tri-chusnul/?to=";
         const invitationTemplate = (name, url) => {
@@ -320,7 +289,6 @@ Keluarga yang Berbahagia :
         };
 
         nameList.addEventListener("input", generateLinks);
-        copyAllBtn.addEventListener("click", copyAll);
 
         function generateLinks() {
             outputContainer.innerHTML = "";
@@ -341,7 +309,7 @@ Keluarga yang Berbahagia :
                 const fullUrl = baseUrl + encodedName;
                 link.href = fullUrl;
                 link.target = "_blank";
-                link.textContent = name; // Tampilkan hanya nama
+                link.textContent = name;
 
                 const copyBtn = document.createElement("button");
                 copyBtn.className = "copy-btn";
@@ -359,23 +327,6 @@ Keluarga yang Berbahagia :
             const message = invitationTemplate(name, url);
             navigator.clipboard.writeText(message)
                 .then(() => showToast("Pesan undangan berhasil disalin!"))
-                .catch(err => showToast("Gagal menyalin: " + err));
-        }
-
-        function copyAll() {
-            const links = document.querySelectorAll("#output .output-link");
-            if (!links.length) {
-                showToast("Belum ada link yang dihasilkan.");
-                return;
-            }
-            const allMessages = Array.from(links).map(linkWrapper => {
-                const name = linkWrapper.querySelector("a").textContent;
-                const url = baseUrl + encodeURIComponent(name);
-                return invitationTemplate(name, url);
-            }).join("\n\n---\n\n"); // Pisahkan setiap pesan dengan garis putus-putus
-            
-            navigator.clipboard.writeText(allMessages)
-                .then(() => showToast("Semua pesan undangan berhasil disalin!"))
                 .catch(err => showToast("Gagal menyalin: " + err));
         }
 
