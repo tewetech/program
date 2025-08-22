@@ -119,8 +119,8 @@
         }
 
         .output-container {
-            min-height: var(--box-height);
-            max-height: 300px;
+            /* REVISI: Mengatur tinggi tetap agar hanya menampilkan 2 baris */
+            height: calc(2 * 1.5rem + 2 * 8px + 20px); /* Ketinggian 2 baris + padding */
             overflow-y: auto;
             border: 1px solid rgba(255, 255, 255, 0.18);
             border-radius: 12px;
