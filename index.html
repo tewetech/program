@@ -62,6 +62,220 @@
             mask-image: radial-gradient(1200px 700px at 50% 40%, #000 0%, transparent 75%);
         }
 
+        /* Popup Overlay */
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(5, 10, 22, 0.95);
+            backdrop-filter: blur(15px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            animation: fadeInOverlay 0.5s ease-out;
+        }
+
+        .popup-overlay::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                repeating-linear-gradient(90deg, 
+                    rgba(106, 168, 255, 0.02) 0px, 
+                    transparent 2px, 
+                    transparent 40px, 
+                    rgba(106, 168, 255, 0.02) 42px),
+                repeating-linear-gradient(0deg, 
+                    rgba(108, 241, 255, 0.02) 0px, 
+                    transparent 2px, 
+                    transparent 40px, 
+                    rgba(108, 241, 255, 0.02) 42px);
+            animation: techGrid 20s linear infinite;
+        }
+
+        .popup-content {
+            position: relative;
+            background: linear-gradient(145deg, 
+                rgba(8, 15, 30, 0.95) 0%, 
+                rgba(6, 12, 25, 0.97) 50%, 
+                rgba(5, 10, 20, 0.95) 100%);
+            backdrop-filter: blur(20px) saturate(110%);
+            -webkit-backdrop-filter: blur(20px) saturate(110%);
+            border-radius: var(--glass-br);
+            border: 1px solid rgba(106, 168, 255, 0.2);
+            box-shadow: 
+                0 8px 25px rgba(0, 0, 0, 0.6),
+                0 0 0 1px rgba(108, 241, 255, 0.05),
+                inset 0 1px 0 rgba(255, 255, 255, 0.03),
+                0 0 20px rgba(106, 168, 255, 0.08);
+            padding: var(--spacing);
+            text-align: center;
+            width: 340px;
+            max-width: 90vw;
+            animation: popupSlideIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            overflow: hidden;
+        }
+
+        .popup-content::before {
+            content: "";
+            position: absolute;
+            top: -1px;
+            left: -1px;
+            right: -1px;
+            bottom: -1px;
+            background: linear-gradient(45deg, 
+                rgba(106, 168, 255, 0.3), 
+                rgba(108, 241, 255, 0.2), 
+                rgba(106, 168, 255, 0.3));
+            border-radius: 18px;
+            z-index: -1;
+            opacity: 0.4;
+            animation: borderGlow 4s ease-in-out infinite alternate;
+        }
+
+        .popup-content::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(108, 241, 255, 0.05), 
+                transparent);
+            animation: scanLine 4s ease-in-out infinite;
+        }
+
+        .popup-icon {
+            font-size: 2rem;
+            color: var(--accent-2);
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 8px rgba(108, 241, 255, 0.3);
+            animation: iconPulse 3s ease-in-out infinite alternate;
+        }
+
+        .popup-title {
+            font-family: "Rajdhani", sans-serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--accent-2);
+            margin: 0 0 0.3rem 0;
+            text-shadow: 0 0 5px rgba(108, 241, 255, 0.2);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            animation: textGlitch 6s ease-in-out infinite;
+        }
+
+        .popup-version {
+            font-family: "Roboto Mono", monospace;
+            font-size: 0.55rem;
+            color: rgba(106, 168, 255, 0.8);
+            margin: 0 0 1rem 0;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .popup-subtitle {
+            font-size: 0.7rem;
+            color: var(--text-color);
+            margin: 0 0 1rem 0;
+            line-height: 1.4;
+            font-family: "Roboto Mono", monospace;
+        }
+
+        .popup-features {
+            text-align: left;
+            margin: 0.8rem 0;
+            font-size: 0.6rem;
+            color: var(--subtle-text);
+        }
+
+        .popup-feature {
+            display: flex;
+            align-items: center;
+            margin: 0.3rem 0;
+            padding: 0.3rem;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.02);
+            transition: all 0.3s ease;
+        }
+
+        .popup-feature:hover {
+            background: rgba(108, 241, 255, 0.05);
+            transform: translateX(3px);
+        }
+
+        .popup-feature i {
+            color: rgba(106, 168, 255, 0.8);
+            width: 16px;
+            margin-right: 8px;
+            font-size: 0.7rem;
+        }
+
+        .popup-button {
+            position: relative;
+            background: linear-gradient(135deg, 
+                rgba(106, 168, 255, 0.15) 0%, 
+                rgba(108, 241, 255, 0.2) 50%, 
+                rgba(106, 168, 255, 0.15) 100%);
+            border: 1px solid rgba(106, 168, 255, 0.4);
+            border-radius: 12px;
+            color: white;
+            padding: 10px 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            font-family: "Roboto Mono", monospace;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 
+                0 3px 12px rgba(106, 168, 255, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            overflow: hidden;
+        }
+
+        .popup-button::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.2), 
+                transparent);
+            transition: left 0.5s ease;
+        }
+
+        .popup-button:hover {
+            transform: translateY(-2px) scale(1.01);
+            box-shadow: 
+                0 6px 20px rgba(106, 168, 255, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.08);
+            border-color: rgba(108, 241, 255, 0.6);
+            background: linear-gradient(135deg, 
+                rgba(106, 168, 255, 0.2) 0%, 
+                rgba(108, 241, 255, 0.25) 50%, 
+                rgba(106, 168, 255, 0.2) 100%);
+        }
+
+        .popup-button:hover::before {
+            left: 100%;
+        }
+
+        .popup-button:active {
+            transform: translateY(-1px) scale(1.01);
+        }
+
         .container {
             position: relative;
             z-index: 2;
@@ -78,6 +292,14 @@
             display: flex;
             flex-direction: column;
             gap: var(--spacing);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
+
+        .container.show {
+            opacity: 1;
+            pointer-events: all;
         }
 
         h1 {
@@ -90,6 +312,58 @@
             color: var(--accent-2);
             text-shadow: 0 0 8px rgba(108, 241, 255, 0.3);
             animation: textGlow 1.5s infinite alternate;
+        }
+
+        /* Music Control */
+        .music-control {
+            position: fixed;
+            bottom: 15px;
+            left: 15px;
+            background: rgba(8, 15, 30, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(106, 168, 255, 0.2);
+            border-radius: 25px;
+            padding: 6px 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            z-index: 999;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        .music-control:hover {
+            background: rgba(8, 15, 30, 0.95);
+            border-color: rgba(108, 241, 255, 0.3);
+            box-shadow: 0 6px 20px rgba(106, 168, 255, 0.1);
+        }
+
+        .music-btn {
+            background: none;
+            border: none;
+            color: var(--accent-2);
+            font-size: 0.9rem;
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .music-btn:hover {
+            background: rgba(108, 241, 255, 0.1);
+            transform: scale(1.05);
+            text-shadow: 0 0 8px rgba(108, 241, 255, 0.3);
+        }
+
+        .music-info {
+            font-size: 0.65rem;
+            color: var(--text-color);
+            font-family: "Roboto Mono", monospace;
         }
 
         textarea {
@@ -133,7 +407,6 @@
         }
 
         .output-container {
-            /* REVISI: Mengatur tinggi tetap agar hanya menampilkan 1 baris */
             height: 48px;
             overflow-y: auto;
             border: 1px solid rgba(255, 255, 255, 0.18);
@@ -232,6 +505,63 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
+        @keyframes fadeInOverlay {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes popupSlideIn {
+            from { 
+                opacity: 0; 
+                transform: translateY(-30px) scale(0.9) rotateX(15deg); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0) scale(1) rotateX(0deg); 
+            }
+        }
+
+        @keyframes techGrid {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(42px, 42px); }
+        }
+
+        @keyframes borderGlow {
+            0% { opacity: 0.4; filter: blur(1px); }
+            100% { opacity: 0.8; filter: blur(2px); }
+        }
+
+        @keyframes scanLine {
+            0%, 100% { left: -100%; }
+            50% { left: 100%; }
+        }
+
+        @keyframes iconPulse {
+            0% { 
+                transform: scale(1);
+                text-shadow: 0 0 20px rgba(108, 241, 255, 0.4);
+            }
+            100% { 
+                transform: scale(1.1);
+                text-shadow: 0 0 30px rgba(108, 241, 255, 0.8);
+            }
+        }
+
+        @keyframes textGlitch {
+            0%, 90%, 100% { 
+                transform: translateX(0);
+                filter: hue-rotate(0deg);
+            }
+            95% { 
+                transform: translateX(2px);
+                filter: hue-rotate(90deg);
+            }
+            97% { 
+                transform: translateX(-2px);
+                filter: hue-rotate(-90deg);
+            }
+        }
+
         @keyframes textGlow {
             from { text-shadow: 0 0 5px rgba(108, 241, 255, 0.3); }
             to { text-shadow: 0 0 15px rgba(108, 241, 255, 0.8); }
@@ -245,8 +575,44 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>💌 Pesan Otomatis Wedding </h1>
+    <!-- Popup Overlay -->
+    <div class="popup-overlay" id="popupOverlay">
+        <div class="popup-content">
+            <div class="popup-icon">
+                <i class="fas fa-microchip"></i>
+            </div>
+            <h2 class="popup-title">Wedding Generator</h2>
+            <div class="popup-version">v2.1.0 • Tech Edition</div>
+            <p class="popup-subtitle">Generator pesan undangan pernikahan berbasis teknologi untuk Chusnul & Tri</p>
+            
+            <div class="popup-features">
+                <div class="popup-feature">
+                    <i class="fas fa-link"></i>
+                    <span>Auto-generate invitation links</span>
+                </div>
+                <div class="popup-feature">
+                    <i class="fas fa-copy"></i>
+                    <span>One-click message copying</span>
+                </div>
+                <div class="popup-feature">
+                    <i class="fas fa-music"></i>
+                    <span>Background wedding music</span>
+                </div>
+                <div class="popup-feature">
+                    <i class="fas fa-mobile-alt"></i>
+                    <span>Mobile-responsive design</span>
+                </div>
+            </div>
+            
+            <button class="popup-button" onclick="enterApp()">
+                <i class="fas fa-rocket"></i> Initialize System
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container" id="mainContainer">
+        <h1>💌 Pesan Otomatis Wedding</h1>
 
         <textarea id="nameList" placeholder="Tulis nama disini. *Pisahkan setiap baris."></textarea>
 
@@ -255,13 +621,38 @@
         </div>
     </div>
 
+    <!-- Music Control -->
+    <div class="music-control" id="musicControl" style="display: none;">
+        <button class="music-btn" id="musicToggle" onclick="toggleMusic()">
+            <i class="fas fa-pause" id="musicIcon"></i>
+        </button>
+        <div class="music-info">
+            <div style="font-weight: 600;">Pernikahan Kita</div>
+        </div>
+    </div>
+
+    <!-- Audio Element -->
+    <audio id="backgroundMusic" loop>
+        <source src="https://raw.githubusercontent.com/tewetech/wedding-invitation-tri-chusnul/refs/heads/main/Pernikahan%20Kita.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
     <div id="toast" class="toast-message"></div>
 
     <script>
         const nameList = document.getElementById("nameList");
         const outputContainer = document.getElementById("output");
         const toast = document.getElementById("toast");
+        const popupOverlay = document.getElementById("popupOverlay");
+        const mainContainer = document.getElementById("mainContainer");
+        const musicControl = document.getElementById("musicControl");
+        const backgroundMusic = document.getElementById("backgroundMusic");
+        const musicIcon = document.getElementById("musicIcon");
+        
         const baseUrl = "https://tewetech.github.io/wedding-of-chusnul-tri/?to=";
+        
+        let isPlaying = false;
+
         const invitationTemplate = (name, url) => {
             const lines = [
                 `_*Assalamualaikum Warahmatullahi Wabarakatuh*_`,
@@ -285,13 +676,55 @@
                 ``,
                 `*Keluarga yang Berbahagia :*`,
                 `Bpk. Sularto & Ibu Sri Mulyani, S.Pd.SD`,
-				`_(Orang Tua Mempelai Putri)_`,
+                `_(Orang Tua Mempelai Putri)_`,
                 ``,
                 `Bpk. Sudi Karyono & Ibu Ngasirah`,
-				`_(Orang Tua Mempelai Putra)_`,
+                `_(Orang Tua Mempelai Putra)_`,
             ];
             return lines.join("\n");
         };
+
+        function enterApp() {
+            // Hide popup
+            popupOverlay.style.display = 'none';
+            
+            // Show main container
+            mainContainer.classList.add('show');
+            
+            // Show music control
+            musicControl.style.display = 'flex';
+            
+            // Start playing music
+            playMusic();
+        }
+
+        function playMusic() {
+            backgroundMusic.play().then(() => {
+                isPlaying = true;
+                musicIcon.className = 'fas fa-pause';
+            }).catch((error) => {
+                console.log("Auto-play was prevented:", error);
+                // If autoplay is blocked, show play button
+                isPlaying = false;
+                musicIcon.className = 'fas fa-play';
+            });
+        }
+
+        function toggleMusic() {
+            if (isPlaying) {
+                backgroundMusic.pause();
+                musicIcon.className = 'fas fa-play';
+                isPlaying = false;
+            } else {
+                backgroundMusic.play().then(() => {
+                    musicIcon.className = 'fas fa-pause';
+                    isPlaying = true;
+                }).catch((error) => {
+                    console.log("Error playing music:", error);
+                    showToast("Gagal memutar musik");
+                });
+            }
+        }
 
         nameList.addEventListener("input", generateLinks);
 
@@ -342,7 +775,18 @@
                 toast.classList.remove("show");
             }, 3000);
         }
+
+        // Handle music ended event (though it's set to loop)
+        backgroundMusic.addEventListener('ended', () => {
+            isPlaying = false;
+            musicIcon.className = 'fas fa-play';
+        });
+
+        // Handle music error
+        backgroundMusic.addEventListener('error', (e) => {
+            console.log("Music loading error:", e);
+            showToast("Gagal memuat musik");
+        });
     </script>
 </body>
 </html>
-
